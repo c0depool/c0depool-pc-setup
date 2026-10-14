@@ -1,0 +1,20 @@
+---
+# =============================================================================
+# system_upgrade: full dnf upgrade, then optional autoremove.
+# Idempotent: dnf reports "Nothing to do" when already up to date.
+# =============================================================================
+
+- name: Upgrade all packages
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+    update_cache: "{{ system_upgrade_refresh }}"
+  when: system_upgrade_enabled | bool
+
+- name: Autoremove orphaned packages
+  ansible.builtin.dnf:
+    autoremove: true
+    state: absent
+  when:
+    - system_upgrade_enabled | bool
+    - system_upgrade_autoremove | bool

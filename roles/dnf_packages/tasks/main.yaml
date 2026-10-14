@@ -1,0 +1,43 @@
+---
+# =============================================================================
+# dnf_packages: enable repos, then install/remove dnf packages.
+# All package lists come from group_vars/all.yaml.
+# =============================================================================
+
+- name: Import Microsoft GPG key (for VS Code repo)
+  ansible.builtin.rpm_key:
+    key: "{{ vscode_repo_gpgkey }}"
+    state: present
+  when: vscode_repo_enabled | bool
+
+- name: Add VS Code repository
+  ansible.builtin.yum_repository:
+    name: "{{ vscode_repo_name }}"
+    description: Visual Studio Code
+    baseurl: "{{ vscode_repo_baseurl }}"
+    enabled: true
+    gpgcheck: "{{ vscode_repo_gpgcheck }}"
+    gpgkey: "{{ vscode_repo_gpgkey }}"
+  when: vscode_repo_enabled | bool
+
+- name: Enable RPM Fusion (free + nonfree)
+  ansible.builtin.dnf:
+    name:
+      - "{{ rpmfusion_free_url }}"
+      - "{{ rpmfusion_nonfree_url }}"
+    state: present
+    disable_gpg_check: true
+  when: rpmfusion_enabled | bool
+
+- name: Install dnf packages
+  ansible.builtin.dnf:
+    name: "{{ dnf_packages | dict2items | map(attribute='value') | flatten }}"
+    state: "{{ dnf_packages_state }}"
+    # Codecs replace ffmpeg-free / mesa defaults, so allow erasing conflicts.
+    allowerasing: true
+
+- name: Remove unwanted dnf packages
+  ansible.builtin.dnf:
+    name: "{{ dnf_packages_remove }}"
+    state: absent
+  when: dnf_packages_remove | length > 0

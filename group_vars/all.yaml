@@ -1,0 +1,99 @@
+---
+# =============================================================================
+# Central variables for the local Fedora PC setup.
+# Everything the roles act on is defined here so the roles stay generic.
+# =============================================================================
+
+# --------------------------------------------------------------- system upgrade
+# Run a full `dnf upgrade` before installing anything.
+system_upgrade_enabled: true
+# Refresh metadata first (equivalent to `dnf upgrade --refresh`).
+system_upgrade_refresh: true
+# Autoremove orphaned dependencies after the upgrade.
+system_upgrade_autoremove: true
+
+# ------------------------------------------------------------- RPM Fusion repos
+# RPM Fusion provides codecs, Steam, and the freeworld Mesa drivers.
+rpmfusion_enabled: true
+rpmfusion_free_url: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+rpmfusion_nonfree_url: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
+
+# ------------------------------------------------------------- VS Code Insiders
+# Native RPM repo (not Flatpak) so the integrated terminal sees host tools.
+vscode_repo_enabled: true
+vscode_repo_name: code
+vscode_repo_baseurl: "https://packages.microsoft.com/yumrepos/vscode"
+vscode_repo_gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
+vscode_repo_gpgcheck: true
+
+# ------------------------------------------------------------------ dnf packages
+# Grouped for readability; all are flattened and installed in one transaction.
+dnf_packages:
+  # Core CLI + admin tools
+  basic:
+    - git
+    - curl
+    - wget
+    - vim
+    - htop
+    - tmux
+    - tree
+    - unzip
+    - jq
+    - ripgrep
+  # Hardware diagnostics / benchmarking
+  hardware:
+    - lm_sensors
+    - nvme-cli
+    - smartmontools
+    - fio
+    - stress-ng
+    - memtester
+    - pciutils
+    - usbutils
+    - nvtop
+  # Multimedia codecs (RPM Fusion)
+  codecs:
+    - ffmpeg
+    - libavcodec-freeworld
+    - mesa-va-drivers-freeworld
+    - mesa-libGLU
+    - gstreamer1-plugins-bad-freeworld
+    - gstreamer1-plugins-ugly
+    - libva-utils
+  # Gaming (host side)
+  gaming:
+    - gamemode
+    - mangohud
+    - vulkan-tools
+  # Editors / IDEs
+  editors:
+    - code-insiders
+
+# Packages to remove (e.g. conflicting defaults). Empty by default.
+dnf_packages_remove: []
+
+# Install state for the dnf_packages role:
+#   present -> only install missing packages (no upgrades)
+#   latest  -> also upgrade the listed packages on every run
+# Note: the system_upgrade role already upgrades everything when enabled.
+dnf_packages_state: present
+
+# --------------------------------------------------------------- flatpak apps
+# Flathub remote is added if missing.
+flatpak_remote_name: flathub
+flatpak_remote_url: "https://dl.flathub.org/repo/flathub.flatpakrepo"
+flatpak_remote_enabled: true
+
+# Install state for the flatpak_apps role:
+#   present -> only install missing apps (no updates)
+#   latest  -> also update the listed apps on every run
+flatpak_apps_state: present
+
+flatpak_apps:
+  - com.valvesoftware.Steam
+  - org.freedesktop.Platform.VulkanLayer.MangoHud
+  - com.github.tchx84.Flatseal
+  # Optional extras (uncomment to enable):
+  # - net.davidotek.pupgui2          # ProtonUp-Qt (Proton-GE)
+  - com.heroicgameslauncher.hgl    # Heroic Games Launcher

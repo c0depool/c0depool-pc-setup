@@ -1,0 +1,19 @@
+---
+# =============================================================================
+# Local Fedora PC setup.
+# Run:  ansible-playbook pc-setup.yaml --ask-become-pass
+# (or just: bash bootstrap.sh)
+# =============================================================================
+
+- name: Configure local Fedora PC
+  hosts: localhost
+  connection: local
+  become: true
+
+  roles:
+    - role: system_upgrade
+      tags: [upgrade]
+    - role: dnf_packages
+      tags: [dnf, packages]
+    - role: flatpak_apps
+      tags: [flatpak]

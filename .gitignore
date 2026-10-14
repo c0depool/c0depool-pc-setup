@@ -1,0 +1,28 @@
+# Ansible
+*.retry
+*.log
+.ansible/
+ansible.log
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.python-version
+
+# Secrets / local overrides (never commit these)
+*.vault
+vault-password*
+*.secret
+group_vars/all.local.yaml
+host_vars/*.local.yaml
+.env
+
+# Editors / OS
+.vscode/
+.idea/
+*.swp
+*~
+.DS_Store

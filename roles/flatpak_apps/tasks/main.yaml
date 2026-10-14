@@ -1,0 +1,19 @@
+---
+# =============================================================================
+# flatpak_apps: ensure the Flathub remote exists, then install apps.
+# Idempotent: community.general.flatpak checks installed state.
+# =============================================================================
+
+- name: Ensure Flathub remote is present
+  community.general.flatpak_remote:
+    name: "{{ flatpak_remote_name }}"
+    flatpakrepo_url: "{{ flatpak_remote_url }}"
+    state: present
+  when: flatpak_remote_enabled | bool
+
+- name: Install Flatpak applications
+  community.general.flatpak:
+    name: "{{ item }}"
+    remote: "{{ flatpak_remote_name }}"
+    state: "{{ flatpak_apps_state }}"
+  loop: "{{ flatpak_apps }}"
