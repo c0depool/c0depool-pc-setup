@@ -19,12 +19,18 @@ rpmfusion_free_url: "https://mirrors.rpmfusion.org/free/fedora/rpmfusion-free-re
 rpmfusion_nonfree_url: "https://mirrors.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{{ ansible_facts['distribution_major_version'] }}.noarch.rpm"
 
 # ------------------------------------------------------------- VS Code Insiders
-# Native RPM repo (not Flatpak) so the integrated terminal sees host tools.
+# Native RPM (not Flatpak) so the integrated terminal sees host tools (kubectl, podman, ...)
 vscode_repo_enabled: true
 vscode_repo_name: code
 vscode_repo_baseurl: "https://packages.microsoft.com/yumrepos/vscode"
 vscode_repo_gpgkey: "https://packages.microsoft.com/keys/microsoft.asc"
 vscode_repo_gpgcheck: true
+
+# ------------------------------------------------------------------- COPR repos
+# Extra COPR repositories to enable (e.g. lizardbyte/stable for Sunshine).
+# Each entry is a "user/project" (or "@group/project") name.
+copr_repos:
+  - lizardbyte/stable
 
 # ------------------------------------------------------------------ dnf packages
 # Grouped for readability; all are flattened and installed in one transaction.
@@ -41,6 +47,7 @@ dnf_packages:
     - unzip
     - jq
     - ripgrep
+    - dnf-plugins-core
   # Hardware diagnostics / benchmarking
   hardware:
     - lm_sensors
@@ -66,6 +73,7 @@ dnf_packages:
     - gamemode
     - mangohud
     - vulkan-tools
+    - Sunshine
   # Editors / IDEs
   editors:
     - code-insiders

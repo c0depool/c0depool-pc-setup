@@ -29,6 +29,19 @@
     disable_gpg_check: true
   when: rpmfusion_enabled | bool
 
+- name: Ensure dnf-plugins-core is present (required by the copr module)
+  ansible.builtin.dnf:
+    name: dnf-plugins-core
+    state: present
+  when: copr_repos | length > 0
+
+- name: Enable COPR repositories
+  community.general.copr:
+    name: "{{ item }}"
+    state: enabled
+  loop: "{{ copr_repos }}"
+  when: copr_repos | length > 0
+
 - name: Install dnf packages
   ansible.builtin.dnf:
     name: "{{ dnf_packages | dict2items | map(attribute='value') | flatten }}"

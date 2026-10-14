@@ -74,6 +74,7 @@ Edit `group_vars/all.yaml`:
 - `dnf_packages` — grouped package lists (basic, hardware, codecs, gaming, editors)
 - `dnf_packages_remove` — packages to remove
 - `dnf_packages_state` — `present` (install only) or `latest` (also upgrade)
+- `copr_repos` — extra COPR repos to enable (e.g. `lizardbyte/stable` for Sunshine)
 - `flatpak_apps` — Flatpak application IDs
 - `flatpak_apps_state` — `present` (install only) or `latest` (also update)
 - `system_upgrade_enabled`, `rpmfusion_enabled`, `vscode_repo_enabled` — feature toggles
