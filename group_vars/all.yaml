@@ -111,3 +111,4 @@ flatpak_apps:
   - com.discordapp.Discord
   # - net.davidotek.pupgui2          # ProtonUp-Qt (Proton-GE)
   - com.heroicgameslauncher.hgl    # Heroic Games Launcher
+  - com.brave.Browser
