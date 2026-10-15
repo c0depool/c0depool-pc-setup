@@ -77,6 +77,9 @@ dnf_packages:
   # Editors / IDEs
   editors:
     - code-insiders
+  # Fonts
+  fonts:
+    - rsms-inter-vf-fonts
 
 # Packages to remove (e.g. conflicting defaults). Empty by default.
 dnf_packages_remove: []
@@ -102,6 +105,6 @@ flatpak_apps:
   - com.valvesoftware.Steam
   - org.freedesktop.Platform.VulkanLayer.MangoHud
   - com.github.tchx84.Flatseal
-  # Optional extras (uncomment to enable):
+  - com.discordapp.Discord
   # - net.davidotek.pupgui2          # ProtonUp-Qt (Proton-GE)
   - com.heroicgameslauncher.hgl    # Heroic Games Launcher
