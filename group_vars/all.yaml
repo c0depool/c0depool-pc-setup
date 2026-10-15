@@ -48,6 +48,9 @@ dnf_packages:
     - jq
     - ripgrep
     - dnf-plugins-core
+  # Networking
+  network:
+    - wireguard-tools
   # Hardware diagnostics / benchmarking
   hardware:
     - lm_sensors
