@@ -113,3 +113,4 @@ flatpak_apps:
   - com.heroicgameslauncher.hgl    # Heroic Games Launcher
   - com.brave.Browser
   - com.nextcloud.desktopclient.nextcloud
+  - org.qownnotes.QOwnNotes
